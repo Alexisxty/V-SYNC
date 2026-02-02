@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 0 1200 240">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="50%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#f59e0b" />
+      <animate attributeName="x1" values="0;1;0" dur="6s" repeatCount="indefinite" />
+      <animate attributeName="x2" values="1;0;1" dur="6s" repeatCount="indefinite" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1200" height="240" fill="#0b1220" />
+  <rect x="40" y="40" width="1120" height="160" rx="16" fill="#0f172a" stroke="url(#g)" stroke-width="2" />
+  <text x="80" y="110" fill="url(#g)" font-family="monospace" font-size="48">V-SYNC / Omni-LLM Benchmark</text>
+  <text x="80" y="160" fill="#94a3b8" font-family="monospace" font-size="20">Unified pipeline, server-first, modality ablation, reproducible evaluation</text>
+</svg>
