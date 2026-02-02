@@ -1,0 +1,47 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Local env
+.env
+.env.*
+config/.env
+config/.env.*
+
+# Data and results
+/data/*
+!/data/README.md
+/results/*
+
+# Tools
+/tools/*
+
+# Spec workflow
+/.spec-workflow/
+
+# Logs and caches
+*.log
+*.tmp
+*.temp
+*.swp
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editor/OS
+.DS_Store
+.idea/
+.vscode/
+
+# Node
+node_modules/
