@@ -2,6 +2,8 @@
 
 ![V-SYNC Hero](docs/assets/hero.svg)
 
+English | [中文](docs/README.zh-CN.md)
+
 > A diagnostic benchmark that asks a simple but brutal question: **does your Omni model know *when* to speak?**
 
 V-SYNC evaluates synchronized **audio-visual temporal grounding** rather than late fusion. Tasks are built so that **single-modality shortcuts fail**; only a native, unified perception stack can consistently answer correctly.
@@ -12,13 +14,15 @@ Full Chinese documentation: `docs/README.zh-CN.md`.
 
 ---
 
-## Navigation
+## Table of Contents
 
 - [Why V-SYNC](#why-v-sync)
 - [Design Philosophy](#design-philosophy)
-- [Benchmark Results](#benchmark-results-shared-with-original-project)
+- [Benchmark Results](#benchmark-results)
 - [System Overview](#system-overview)
 - [Quick Start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Configuration](#configuration)
 - [Run Local Model Servers](#run-local-model-servers)
 - [Benchmark (Level1)](#benchmark-level1)
 - [Modality Ablation](#modality-ablation)
@@ -26,8 +30,6 @@ Full Chinese documentation: `docs/README.zh-CN.md`.
 - [Project Layout](#project-layout)
 - [Level2 / Level3](#level2--level3)
 - [API Models](#api-models)
-- [FAQ](#faq)
-- [Citation](#citation)
 
 ---
 
@@ -54,9 +56,9 @@ V-SYNC is intentionally *diagnostic*, not purely benchmark-driven:
 
 ---
 
-## Benchmark Results (Shared With Original Project)
+## Benchmark Results
 
-This repository follows the same evaluation settings and datasets as the original AV-SyncBench/omni_benchmark, therefore results are **shared**.
+This repository includes the evaluation settings and datasets used in V-SYNC.
 
 | Model | Accuracy |
 |-------|----------|
@@ -67,6 +69,8 @@ This repository follows the same evaluation settings and datasets as the origina
 ---
 
 ## System Overview
+
+![V-SYNC Overview](docs/assets/overview.png)
 
 ```
 [Dataset + ASR] -> [Pipeline] -> [Model Client] -> [HTTP Server] -> [Omni Model]
