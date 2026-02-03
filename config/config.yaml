@@ -15,7 +15,7 @@ runtime:
 
 models:
   defaults:
-    temperature: 0.1
+    temperature: 0.0
     top_p: 1.0
     max_tokens: 256
   gpt4o:
@@ -59,7 +59,7 @@ models:
     temperature: 0.1
     use_audio_in_video: true
     num_video_frames: 256
-    gpu_ids: []
+    gpu_ids: [3,4,5,6]
     host: "0.0.0.0"
     port: 5091
     server_url: "http://127.0.0.1:5091"
@@ -84,6 +84,24 @@ models:
     host: "0.0.0.0"
     port: 5091
     server_url: "http://127.0.0.1:5091"
+    user_prompt: ""
+  vita_1_5:
+    model_path: "/publicssd/xty/models/VITA-1.5"
+    max_tokens: 256
+    gpu_ids: [3]
+    host: "0.0.0.0"
+    port: 5093
+    server_url: "http://127.0.0.1:5093"
+    user_prompt: ""
+  baichuan_omni_1_5:
+    model_path: "/publicssd/xty/models/Baichuan-Omni-1d5"
+    max_tokens: 256
+    use_audio_in_video: false
+    # Baichuan-Omni 原生音频最大 30s（模型内限制），这里统一使用 ASR 文本输入
+    gpu_ids: [3, 4,5,6]
+    host: "0.0.0.0"
+    port: 5094
+    server_url: "http://127.0.0.1:5094"
     user_prompt: ""
 
 prompts:

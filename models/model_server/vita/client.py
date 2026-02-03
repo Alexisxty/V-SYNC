@@ -1,0 +1,38 @@
+from __future__ import annotations
+
+import os
+
+from config.settings import CONFIG
+from models.pipeline.types import InferenceRequest, InferenceResult
+from models.utils.omni_http_client import OmniHttpClient
+
+
+class Vita15Client:
+    @property
+    def model_name(self) -> str:
+        return "vita_1_5"
+
+    def predict(self, request: InferenceRequest) -> InferenceResult:
+        model_config = CONFIG.model("vita_1_5")
+        server_url = request.metadata.get("server_url") if request.metadata else None
+        server_url = server_url or model_config.get("server_url") or os.getenv("VITA_1_5_SERVER_URL")
+        if not server_url:
+            raise ValueError("缺少 VITA-1.5 server_url，请在 config/config.yaml 或环境变量中配置。")
+
+        user_prompt = request.metadata.get("user_prompt") if request.metadata else None
+        user_prompt = user_prompt or model_config.get("user_prompt")
+        use_video = True
+        if request.metadata:
+            use_video = bool(request.metadata.get("use_video", True))
+
+        client = OmniHttpClient(server_url)
+        raw_answer = client.call_api(
+            request.video_path,
+            request.question,
+            user_prompt=user_prompt,
+            use_video=use_video,
+            use_audio=False,
+            max_retries=CONFIG.runtime("max_retries", 5),
+            retry_delay=CONFIG.runtime("request_delay", 0.0),
+        )
+        return InferenceResult(answer=raw_answer or "", raw_response=raw_answer)

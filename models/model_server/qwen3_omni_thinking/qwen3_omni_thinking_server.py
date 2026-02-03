@@ -128,7 +128,7 @@ def process_video_analysis(video_path, question, use_video, use_audio):
     inputs = inputs.to(model.device).to(model.dtype)
 
     # Inference with thinking mode
-    text_ids, _ = model.generate(
+    result = model.generate(
         **inputs,
         thinker_return_dict_in_generate=True,
         thinker_max_new_tokens=MAX_TOKENS,
@@ -137,8 +137,19 @@ def process_video_analysis(video_path, question, use_video, use_audio):
         return_audio=False
     )
 
+    sequences = None
+    if hasattr(result, "sequences"):
+        sequences = result.sequences
+    elif isinstance(result, tuple) and result:
+        candidate = result[0]
+        sequences = candidate.sequences if hasattr(candidate, "sequences") else candidate
+    elif isinstance(result, str):
+        return result
+    else:
+        sequences = result
+
     response = processor.batch_decode(
-        text_ids.sequences[:, inputs["input_ids"].shape[1]:],
+        sequences[:, inputs["input_ids"].shape[1]:],
         skip_special_tokens=True,
         clean_up_tokenization_spaces=False
     )[0]
