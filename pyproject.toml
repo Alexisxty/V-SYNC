@@ -54,6 +54,8 @@ dependencies = [
     "s2wrapper",
     "whisper>=1.1.10",
     "clip",
+    "imagesize>=1.4.1",
+    "cairosvg>=2.8.2",
 ]
 
 [[tool.uv.index]]
