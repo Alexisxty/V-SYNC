@@ -11,6 +11,7 @@ from .qwen3_omni_thinking.client import Qwen3OmniThinkingClient
 from .qwen2_5_omni.client import Qwen25OmniClient
 from .miniomni_2.client import MiniOmni2Client
 from .omnivinci.client import OmniVinciClient
+from .vita.client import Vita15Client
 
 
 CLIENTS: Dict[str, Type[ModelClient]] = {
@@ -22,6 +23,7 @@ CLIENTS: Dict[str, Type[ModelClient]] = {
     "qwen2_5_omni": Qwen25OmniClient,
     "miniomni_2": MiniOmni2Client,
     "omnivinci": OmniVinciClient,
+    "vita_1_5": Vita15Client,
 }
 
 

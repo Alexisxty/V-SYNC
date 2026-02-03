@@ -15,7 +15,7 @@ runtime:
 
 models:
   defaults:
-    temperature: 0.1
+    temperature: 0.0
     top_p: 1.0
     max_tokens: 256
   gpt4o:
@@ -84,6 +84,14 @@ models:
     host: "0.0.0.0"
     port: 5091
     server_url: "http://127.0.0.1:5091"
+    user_prompt: ""
+  vita_1_5:
+    model_path: "/publicssd/xty/models/VITA-1.5"
+    max_tokens: 256
+    gpu_ids: [3]
+    host: "0.0.0.0"
+    port: 5093
+    server_url: "http://127.0.0.1:5093"
     user_prompt: ""
 
 prompts:

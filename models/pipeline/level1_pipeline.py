@@ -117,6 +117,13 @@ class Level1Pipeline:
             return False
         return prediction == correct.strip().upper()
 
+    def _save_payload(self, payload: dict) -> None:
+        self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
+        temp_path = self.config.output_path.with_suffix(".tmp")
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+        temp_path.replace(self.config.output_path)
+
     def run(self) -> dict:
         dataset = self.load_dataset()
         if self.config.start_index > 0:
@@ -140,6 +147,8 @@ class Level1Pipeline:
                 self.logger.info("Resume enabled: %s processed, %s correct", total, correct)
             except Exception as exc:  # noqa: BLE001
                 self.logger.warning("Failed to load existing results: %s", exc)
+
+        run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         for sample in dataset:
             if processed_ids and sample.get("id") in processed_ids:
@@ -172,20 +181,27 @@ class Level1Pipeline:
                 sample.get("correct_answer"),
             )
 
+            accuracy = (correct / total * 100) if total > 0 else 0.0
+            payload = {
+                "model": self.omni_test.model_name,
+                "timestamp": run_timestamp,
+                "accuracy": accuracy,
+                "correct": correct,
+                "total": total,
+                "results": results,
+            }
+            self._save_payload(payload)
+
         accuracy = (correct / total * 100) if total > 0 else 0.0
         payload = {
             "model": self.omni_test.model_name,
-            "timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
+            "timestamp": run_timestamp,
             "accuracy": accuracy,
             "correct": correct,
             "total": total,
             "results": results,
         }
-
-        self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.config.output_path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
-
+        self._save_payload(payload)
         self.logger.info("Accuracy %.2f%% (%s/%s)", accuracy, correct, total)
         self.logger.info("Results saved: %s", self.config.output_path)
         return payload
