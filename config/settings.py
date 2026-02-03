@@ -34,7 +34,7 @@ def _default_config() -> Dict[str, Any]:
         },
         "models": {
             "defaults": {
-                "temperature": 0.1,
+                "temperature": 0.3,
                 "top_p": 1.0,
                 "max_tokens": 256,
                 "use_audio_in_video": True,

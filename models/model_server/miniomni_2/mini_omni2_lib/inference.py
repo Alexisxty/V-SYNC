@@ -166,7 +166,7 @@ def load_audio(path, max_duration_sec=30):
 
 
 def A1_A2_batch(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step,
-                snacmodel, out_dir=None):
+                snacmodel, out_dir=None, temperature=0.3):
     with fabric.init_tensor():
         model.set_kv_cache(batch_size=2)
     tokenlist = generate_TA_BATCH(
@@ -176,7 +176,7 @@ def A1_A2_batch(fabric, audio_feature, input_ids, leng, model, text_tokenizer, s
         [leng, leng],
         ["A1A2", "A1T2"],
         max_returned_tokens=2048,
-        temperature=0.9,
+        temperature=temperature,
         top_k=1,
         eos_id_a=_eoa,
         eos_id_t=_eot,
@@ -210,7 +210,7 @@ def A1_A2_batch(fabric, audio_feature, input_ids, leng, model, text_tokenizer, s
     return text
 
 
-def A1_T2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step):
+def A1_T2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step, temperature=0.3):
     with fabric.init_tensor():
         model.set_kv_cache(batch_size=1)
     tokenlist = generate_AT(
@@ -220,7 +220,7 @@ def A1_T2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step):
         [leng],
         ["AT"],
         max_returned_tokens=2048,
-        temperature=0.9,
+        temperature=temperature,
         top_k=1,
         eos_id_a=_eoa,
         eos_id_t=_eot,
@@ -233,7 +233,7 @@ def A1_T2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step):
 
 
 def A1_A2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step,
-          snacmodel, out_dir=None):
+          snacmodel, out_dir=None, temperature=0.3):
     with fabric.init_tensor():
         model.set_kv_cache(batch_size=1)
     tokenlist = generate_AA(
@@ -243,7 +243,7 @@ def A1_A2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step,
         [leng],
         ["A1T2"],
         max_returned_tokens=2048,
-        temperature=0.9,
+        temperature=temperature,
         top_k=1,
         eos_id_a=_eoa,
         eos_id_t=_eot,
@@ -275,7 +275,7 @@ def A1_A2(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step,
     return text_tokenizer.decode(torch.tensor(tokenlist)).strip()
 
 
-def A1_T1(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step):
+def A1_T1(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step, temperature=0.3):
     with fabric.init_tensor():
         model.set_kv_cache(batch_size=1)
     tokenlist = generate_ASR(
@@ -285,7 +285,7 @@ def A1_T1(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step):
         [leng],
         ["A1T1"],
         max_returned_tokens=2048,
-        temperature=0.9,
+        temperature=temperature,
         top_k=1,
         eos_id_a=_eoa,
         eos_id_t=_eot,
@@ -299,7 +299,7 @@ def A1_T1(fabric, audio_feature, input_ids, leng, model, text_tokenizer, step):
 
 
 def T1_A2(fabric, input_ids, model, text_tokenizer, step,
-          snacmodel, out_dir=None):
+          snacmodel, out_dir=None, temperature=0.3):
     with fabric.init_tensor():
         model.set_kv_cache(batch_size=1)
     tokenlist = generate_TA(
@@ -309,7 +309,7 @@ def T1_A2(fabric, input_ids, model, text_tokenizer, step,
         None,
         ["T1A2"],
         max_returned_tokens=2048,
-        temperature=0.9,
+        temperature=temperature,
         top_k=1,
         eos_id_a=_eoa,
         eos_id_t=_eot,
@@ -343,7 +343,7 @@ def T1_A2(fabric, input_ids, model, text_tokenizer, step,
     return text_tokenizer.decode(torch.tensor(tokenlist)).strip()
 
 
-def T1_T2(fabric, input_ids, model, text_tokenizer, step):
+def T1_T2(fabric, input_ids, model, text_tokenizer, step, temperature=0.3):
 
     with fabric.init_tensor():
         model.set_kv_cache(batch_size=1)
@@ -354,7 +354,7 @@ def T1_T2(fabric, input_ids, model, text_tokenizer, step):
         None,
         ["T1T2"],
         max_returned_tokens=2048,
-        temperature=0.9,
+        temperature=temperature,
         top_k=1,
         eos_id_a=_eoa,
         eos_id_t=_eot,
@@ -425,7 +425,7 @@ class OmniInference:
                             audio_path, 
                             stream_stride=4,
                             max_returned_tokens=2048, 
-                            temperature=0.9, 
+                            temperature=0.3, 
                             top_k=1, 
                             top_p=1.0,
                             eos_id_a=_eoa,

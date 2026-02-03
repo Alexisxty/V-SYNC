@@ -96,7 +96,7 @@ class OmniVisionInference(OmniInference):
     def run_vision_AA_batch_stream(self, audio_path, image_path, 
                                 stream_stride=4,
                                 max_returned_tokens=2048, 
-                                temperature=0.9, 
+                                temperature=0.3, 
                                 top_k=1, 
                                 top_p=1.0,
                                 eos_id_a=_eoa, 

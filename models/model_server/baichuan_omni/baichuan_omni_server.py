@@ -32,7 +32,7 @@ os.environ.setdefault("BAICHUAN_OMNI_DISABLE_AUDIO", "1")
 
 MODEL_PATH = CONFIG.model("baichuan_omni_1_5").get("model_path") or "/publicssd/xty/models/Baichuan-Omni-1.5"
 MAX_NEW_TOKENS = CONFIG.model("baichuan_omni_1_5").get("max_tokens", 256)
-TEMPERATURE = 0.0
+TEMPERATURE = CONFIG.model("baichuan_omni_1_5").get("temperature", 0.3)
 TOP_P = 1.0
 MAX_FRAME_NUM = int(
     os.getenv("BAICHUAN_OMNI_MAX_FRAME_NUM", str(CONFIG.runtime("max_frames", 8)))
